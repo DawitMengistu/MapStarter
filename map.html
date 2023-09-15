@@ -1,0 +1,63 @@
+<html>
+  <head>
+    <title>Geolocation</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+    <link rel="stylesheet" type="text/css" href="./map.css" />
+    <script type="module" src="./index.js"></script>
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <!-- 
+      The `defer` attribute causes the callback to execute after the full HTML
+      document has been parsed. For non-blocking uses, avoiding race conditions,
+      and consistent behavior across browsers, consider loading using Promises.
+      See https://developers.google.com/maps/documentation/javascript/load-maps-js-api
+      for more information.
+      -->
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVGmgEFHbCv-S_udVnFcfQ6EgYkuHTkY0&callback=initMap&v=weekly"
+      defer
+    ></script>
+<script>
+    function initMap() {
+  const map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 4,
+    center: { lat: -25.363, lng: 131.044},
+  });
+  const bounds = {
+    north: -25.363882,
+    south: -31.203405,
+    east: 131.044922,
+    west: 125.244141,
+  };
+
+  // Display the area between the location southWest and northEast.
+  map.fitBounds(bounds);
+
+  // Add 5 markers to map at random locations.
+  // For each of these markers, give them a title with their index, and when
+  // they are clicked they should open an infowindow with text from a secret
+  // message.
+  const location = [{lat: -25.363, lng: 131.044}, {lat: -22.363, lng: 131.044}, ]
+  const lngSpan = bounds.east - bounds.west;
+  const latSpan = bounds.north - bounds.south;
+
+  for (let i = 0; i < location.length; ++i) {
+    const marker = new google.maps.Marker({
+      position: {
+        lat: location[i].lat,
+        lng: location[i].lng,
+      },
+      map: map,
+    });
+
+  }
+}
+
+
+window.initMap = initMap;
+</script>
+  </body>
+</html>
